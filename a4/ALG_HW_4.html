@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!-- saved from url=(0122)https://cw.felk.cvut.cz/brute/data/ae/release/2019l_be5b33alg/be5b33alg_ls19/evaluation/input.php?task=looselyconnected_PY -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-2">
+  
+  <meta http-equiv="cache-control" content="no-cache">
+  <link rel="stylesheet" type="text/css" href="./ALG_HW_4_files/default.css">
+  <title>Zadání úlohy z A4B33ALG</title>
+</head>
+<body class="vsc-initialized">
+ <div class="main">
+
+<h2><font color="blue">Loosely Connected Isolated Nodes</font></h2>
+
+<p align="justify">
+
+Let us associate each node of a simple undirected graph with some color.<br>
+We say that a node <i>v</i> is isolated when the color of <i>v</i> is different from the colors of all immediate neighbours  of <i>v</i>.<br>
+We say that a pair of nodes {<i>u</i>, <i>v</i>} is a loosely connected isolated pair if both <i>u</i>  and <i>v</i> are isolated nodes
+and the distance between <i>u</i> and <i>v</i> is exactly two. <br>
+We remind you that the distance between two nodes is equal to the number of edges in the shortest path connecting these two nodes.
+
+
+</p>
+
+
+Â&nbsp; 
+Â&nbsp; 
+Â&nbsp; <table border="0" width="890" align="center"><tbody><tr><td align="center">
+
+<img style="width: 738px; height: 234px;" src="./ALG_HW_4_files/img1.png"> <br>
+<!--	
+<img style="width: 738px; height: 234px;" src="img1.png"/> <br>
+-->
+
+<br>
+<b>Image 1.</b> Three graphs corresponding to Examples 1, 2, and 3 below. Each isolated node is marked by an additional circle.   <br>
+For each of these graphs we give a complete list of losely connected isolated pairs of nodes.<br>
+a) {0 2}, {2 8}, {2 12}, {7 11}, {7 13}, {8 12}, {8 14}, {11 13}, {12 14}. <br>
+b) {0 1}, {0 2}, {0 8}, {1 2}, {1 8}, {2 8}, {2 7}, {5 8}, {6 8}, {7 9}. <br>
+c) {1 3}, {2 6}.
+
+  </td></tr>
+</tbody></table>
+
+<h3><font color="blue">The task</font></h3>
+<p align="justify">
+You are given a graph and a color of each its node. Determine the number of loosely connected isolated pairs in the graph.
+</p>
+<hr>
+
+
+<h3><font color="blue">Input</font></h3>
+<p align="justify">
+The first input line contains three integers <i>N</i>, <i>E</i>, <i>C</i> separated by space and representing (in this order) the number of nodes in the graph, the number of edges in the graph and the number of node colors in the graph.
+We assume that the nodes are labeled 0, 1, ...,  <i>N</i>&#8722;1.
+<br>
+The next line contains <i>N</i> integers, separated by spaces, which represent the list of colors of particular nodes. The colors are listed in ascending order of node labels. The first integer represents the color of node 0, the second integer represents the color of node 1, etc. We assume that the colors are labeled 0, 1, ...,  <i>C</i>&#8722;1.
+
+<br>
+Next, there are <i>E</i> text lines, each specifies one edge in the graph. The line contains two integers, separated by space, which represent the labels of the edge endnodes. The edges are listed in no particular order.
+<br>
+It holds, 2 &#8804; <i>N</i> &#8804; 10<sup>4</sup>, 1 &#8804; <i>E</i> &#8804; 10<sup>5</sup>, 2 &#8804; <i>C</i> &#8804; 100.
+</p>
+
+<h3><font color="blue">Output</font></h3>
+<p align="justify">
+The output contains one line with one integer denoting the number of loosely connected isolated pairs in the input graph.
+
+
+</p><h3><font color="blue">Example 1</font></h3>
+<b>Input</b><br>
+<pre>15 22 3
+1 2 0 1 1 0 2 1 2 1 0 1 0 1 0
+0 1
+1 2
+2 3
+3 4
+5 6
+6 7
+7 8
+8 9
+10 11
+11 12
+12 13
+13 14
+0 5
+1 6
+2 7
+3 8
+4 9
+5 10
+6 11
+7 12
+8 13
+9 14
+</pre>
+
+<b>Output</b><br>
+<pre>9
+</pre>
+
+The graph in Example 1 is  depicted in Image 1 a).
+
+
+<!-- EXAMPLE 2 -------------------------------------------------------------------------------------------------------------------- -->
+
+
+
+<h3><font color="blue">Example 2</font></h3>
+<b>Input</b><br>
+<pre>10 11 4
+0 1 2 3 3 1 0 3 1 2
+0 3
+1 3
+2 3
+3 4
+2 5
+4 6
+5 7
+6 9
+7 8
+8 9
+3 8
+</pre>
+
+<b>Output</b><br>
+<pre>10
+</pre>
+
+The graph in Example 2 is  depicted in Image 1 b).
+
+
+<!-- EXAMPLE 3 -------------------------------------------------------------------------------------------------------------------- -->
+
+
+ <h3><font color="blue">Example 3</font></h3>
+
+<b>Input</b><br>
+<pre>9 8 2
+1 0 0 0 1 1 0 1 1
+0 3
+1 4
+2 5
+3 4
+4 5
+5 6
+6 7
+4 8
+</pre>
+
+<b>Output</b><br>
+<pre>2
+</pre>
+
+The graph in Example 3 is  depicted in Image 1 c).
+
+
+<hr>
+
+<h3><font color="blue">Public data</font></h3>
+<p align="justify">
+The public data set is intended for easier debugging and approximate program correctness checking. The public data set is stored also in the upload system and each time a student submits a solution it is run on the public dataset and the program output to  stdout and stderr is available to him/her.
+<br>
+<a href="https://cw.felk.cvut.cz/brute/data/ae/release/2019l_be5b33alg/be5b33alg_ls19/evaluation/getdata.php?task=looselyconnected_PY&amp;item=datapub.zip"><b>Link to public data set</b></a>
+</p>
+
+
+
+</div>
+
+
+
+
+
+</body></html>

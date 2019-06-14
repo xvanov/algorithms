@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-2">
+  <meta http-equiv="cache-control" content="no-cache">
+  <link rel="stylesheet" type="text/css" href="ALG_HW_1_files/default.html">
+  <title>Zadání úlohy z A4B33ALG</title>
+</head>
+<body class="vsc-initialized">
+ <div class="main">
+
+
+<h2><font color="blue">Collecting samples</font></h2>
+
+<p align="justify">
+A team of NASA researches aims to collect mineral samples from a surface
+ of a distant planet. An exploration rover will be deployed
+for this task. To plan its movement, the area of interest is divided 
+into sectors forming a regular rectangular grid. Three types of sectors
+are distinguished: rich in minerals, toxic and neutral.
+The researches look for an optimal route, which will take the rover 
+through a maximal possible number of rich in minerals sectors.
+This task is not trivial as the environment on the surface and the 
+technical parameters of the rover pose significant restrictions
+on the movement. The starting sector, where the rover is dropped, can be
+ chosen arbitrarily.
+From the starting sector, the rover has to move eastwards (through next <i>K</i> &gt; 0 sectors), southwards (again through next <i>K</i> sectors),
+westwards (<i>K</i> sectors) and northwards (<i>K</i> sectors), returning to the initial position. This means that the rover makes a loop
+around the perimeter of a square and visits 4<i>K</i> sectors.
+The samples, which were collected in the rich sectors, can degrade and 
+become useless if the rover moves through many toxic sectors.
+The researches calculated that this degradation does not occur if and 
+only if the number <i>T</i> of toxic sectors visited by the rover is at
+most half the number <i>R</i> of visited rich in minerals sectors (i.e., <i>T</i> &#8804; <i>R</i> / 2).
+
+</p>
+
+<table width="550" border="0" align="center">
+    <tbody><tr>
+    <td align="center">
+<img style="height: 200px;" src="ALG_HW_1_files/getdata.php">
+<!--img style="height: 200px;" src="examples.png" /--><br><br>
+
+<b>Image 1.</b> Sectors map examples. Rich in minerals sectors are green, toxic sectors are violet and neutral sectors are white.
+Optimal routes are depicted by the red arrows.
+    </td>
+    </tr>
+</tbody></table>
+
+<br>
+
+<h3><font color="blue">The task</font></h3>
+<p align="justify">
+You are given a map of sectors. Your task is to compute the maximal 
+number of rich in minerals sectors that can be visited by the rover when
+ its movement
+is limited by the above formulated restrictions.
+<br><br>
+
+</p><hr>
+
+<h3><font color="blue">Input</font></h3>
+<p align="justify">
+The first input line contains two integers <i>M</i> and <i>N</i> determining the sectors grid size: <i>M</i> is the number of rows,
+<i>N</i> is the number of columns. Next, there are <i>M</i> lines, each of them containing <i>N</i> integers, separated by a space, 
+describing types of sectors in the row.
+Each neutral sector is represented by value 0, rich in minerals sector is represented by value 1 and toxic sector is represented
+by value 2.
+It holds 2 &#8804; <i>M</i>, <i>N</i> &#8804; 150.
+</p>
+
+
+<h3><font color="blue">Output</font></h3>
+<p align="justify">
+The output consists of one line containing one non-negative integer 
+which equals the maximal number of rich in minerals sectors visited by 
+the
+rover following the given rules and keeping the collected samples 
+nondegraded. 
+</p>
+
+
+<!-- EXAMPLE 1 -------------------------------------------------------------------------------------------------------------------- -->
+
+<h3><font color="blue">Example 1</font></h3>
+
+
+<b>Input</b><br>
+<pre>4 4
+1 0 1 2
+2 0 2 1
+1 2 1 0
+0 1 2 0
+</pre>
+
+<b>Output</b><br>
+<pre>2
+</pre>
+
+The solution of Example 1 is visualized in Image 1a).
+
+
+<!-- EXAMPLE 2 -------------------------------------------------------------------------------------------------------------------- -->
+
+
+<h3><font color="blue">Example 2</font></h3>
+
+<b>Input</b><br>
+<pre>6 8
+0 0 2 2 2 1 2 1
+0 1 2 2 1 0 1 1
+0 0 1 0 1 2 0 2
+2 1 0 2 2 1 1 1
+1 2 1 0 0 0 1 0
+1 2 0 1 1 2 1 1
+</pre>
+
+<b>Output</b><br>
+<pre>9
+</pre>
+
+The solution of Example 2 is visualized in Image 1b).
+
+
+<!-- EXAMPLE 3 -------------------------------------------------------------------------------------------------------------------- -->
+
+
+<h3><font color="blue">Example 3</font></h3>
+<b>Input</b><br>
+<pre>8 10
+1 2 0 0 2 0 2 2 1 2
+2 1 2 2 1 1 2 1 2 2
+1 2 1 1 1 0 2 2 2 1
+0 2 2 1 0 2 2 2 1 2
+2 2 2 1 0 2 1 2 2 0
+1 0 1 1 2 0 2 1 1 1
+2 2 0 2 2 0 1 2 2 0
+0 2 2 0 2 2 0 2 0 2
+</pre>
+
+<b>Output</b><br>
+<pre>8
+</pre>
+
+
+
+<hr>
+<h3><font color="blue">Public data</font></h3>
+<p align="justify">
+The public data set is intended for easier debugging and approximate 
+program correctness checking. The public data set is stored also in the 
+upload system and each time a student submits a solution it is run on 
+the public dataset and the program output to  stdout and stderr is 
+available to him/her.
+<br>
+<a href="https://cw.felk.cvut.cz/brute/data/ae/release/2019l_be5b33alg/be5b33alg_ls19/evaluation/getdata.php?task=rover_PY&amp;item=datapub.zip"><b>Link to public data set</b></a>
+</p>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body></html>

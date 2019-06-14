@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-2">
+  <meta http-equiv="cache-control" content="no-cache">
+  <link rel="stylesheet" type="text/css" href="a3_files/default.html">
+  <title>Zadání úlohy z A4B33ALG</title>
+</head>
+<body class="vsc-initialized">
+ <div class="main">
+
+<h2><font color="blue">Longest path in a network</font></h2>
+<p align="justify">
+
+Quido is currently evaluating the performance of various campus networks
+ around the country. A network is a tree structure made of servers, also
+ called nodes,  and cable connections between them. The quality of the 
+network depends on the speed at which the messages can be transmitted 
+through the network. The time of travel along the cables is negligibly 
+small and Quido considers it being zero in all cases.
+
+Each server is characterized by single number which is equal to the 
+number of microseconds required to process the message and -- if needed 
+-- send it to the next server.
+
+The network quality is equal to the longest possible time in which a 
+message can be propagated through the network. In other words, it is the
+ maximum possible sum of characteristics of all servers on a path from 
+some server to some other server in the campus.  
+<br><br>  
+For simplicity reasons, Quido keeps the description of each network in a specific string format which we describe bellow.
+
+
+
+ </p><p align="justify">
+
+
+A network contains one distinctive node called the root. Let <i>x</i> and <i>y</i> be two nodes. Node <i>y</i> is called  descendant of <i>x</i> if <i>x</i> lies on the path connecting <i>y</i> and the root. Node <i>y</i> is called child  of <i>x</i> if <i>x</i> and <i>y</i> are connected directly by cable and <i>y</i> is descendant of  <i>x</i>. Part of the network containg node <i>x</i>,  all its descendants, all cables between them and no other nodes or cables is called a subnetwork with root <i>x</i>. 
+Note that each node, including the network root, is a root of some subnetwork.
+<br>
+
+To describe the network a string of symbols is constructed recursively.
+
+</p><ul>
+<li>
+1. A subnetwork containing only one node with characteristic <b><code>c</code></b> is described by the string <b><code>(c)</code></b>.
+</li>
+<li>
+2. Let <i>s</i><sub>1</sub>, <i>s</i><sub>2</sub>, <i>s</i><sub>3</sub>, ..., s<sub><i>k</i></sub> (<i>k</i> &gt; 0) be all the subnetworks which roots are children of node <i>x</i>, let <b><code>d<sub>1</sub>, d<sub>2</sub>, d<sub>3</sub>, ..., d<sub><i>k</i></sub></code></b> be the respective descriptions of those subnetworks.<br>
+The description of subnetwork with root <i>x</i> is the string  
+<b><code>(cd<sub>1</sub>d<sub>2</sub>d<sub>3</sub>...d<sub><i>k</i></sub>)</code></b>, where  <code><b>c</b></code> is the characteristic of <i>x</i>. 
+
+</li>
+
+
+</ul>
+
+<p></p>
+
+<!-- list
+<ul>
+<li>  </li>
+</ul>
+-->
+
+<br><br>
+<table width="800" border="0" align="center">
+  <tbody><tr>
+  <td align="center">
+<img style="width: 550px; height: 229px;" src="a3_files/getdata.php"><br><br>
+
+<b>Image 1.</b> Example of a network which quality is 136. The path with
+ maximum sum of server characteristics (equal to 136) is highlighted. 
+The root is the topmost node in the picture. The network is described by
+ the string <br> 
+(5(14(1(19)(2(10(8)))(3(5)(12(4)))(20))(4(17)(15)))(10(21(44)(13(35)(5(34)(4))(2(23)))(55(8)))(12(9)(10(6)(5(11))(4))))).
+  </td>
+  </tr>
+</tbody></table>
+
+  <br>
+
+<h3><font color="blue">The task</font></h3>
+<p align="justify">
+Given the network description in the Quido's format find the quality of the network.
+</p>
+
+
+<p align="justify">
+<b>Implementation note</b><br>
+Quido's wiew is that the effective solution of the task should be also 
+memory efficient. In fact, he is convinced that the input string 
+description is sufficient to perform all necessary calculations and that
+ there is no need to build other internal representation of the entire 
+network.
+</p>
+ <hr>
+
+
+
+<h3><font color="blue">Input</font></h3>
+<p align="justify">
+
+The input contains one text line containing the network description in Quido's format. There are no other symbols on the line.
+All node characteristics are positive integers smaller than 100. There is at least one node and less than 10<sup>6</sup> nodes in the network.
+</p>
+
+<h3><font color="blue">Output</font></h3>
+<p align="justify">
+The otuput contains one text line with one integer representing the quality of the network.
+
+</p>
+
+
+<h3><font color="blue">Example 1</font></h3>
+<b>Input</b><br>
+<pre>(5(14(1(19)(2(10(8)))(3(5)(12(4)))(20))(4(17)(15)))(10(21(44)(13(35)(5(34)(4))(2(23)))(55(8)))(12(9)(10(6)(5(11))(4)))))
+</pre>
+
+
+<b>Output</b><br>
+<pre>136
+</pre>
+
+The network is depicted in the Image 1 above.
+
+
+<h3><font color="blue">Example 2</font></h3>
+<b>Input</b><br>
+<pre>(4(3(2(3)(5)(1)(6))))
+</pre>
+
+<b>Output</b><br>
+<pre>15
+</pre>
+
+
+
+
+<h3><font color="blue">Example 3</font></h3>
+<b>Input</b><br>
+<pre>(8(4(2(1)(3))(6(5)(7)))(12(10(9)(11))(14(13)(15))))
+</pre>
+
+
+<b>Output</b><br>
+<pre>66
+</pre>
+
+
+<hr>
+<h3><font color="blue">Public data</font></h3>
+<p align="justify">
+The public data set is intended for easier debugging and approximate 
+program correctness checking. The public data set is stored also in the 
+upload system and each time a student submits a solution it is run on 
+the public dataset and the program output to  stdout and stderr is 
+available to him/her.
+<br>
+<a href="https://cw.felk.cvut.cz/brute/data/ae/release/2019l_be5b33alg/be5b33alg_ls19/evaluation/getdata.php?task=longestpaths_PY&amp;item=datapub.zip"><b>Link to public data set</b></a>
+</p>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body></html>
