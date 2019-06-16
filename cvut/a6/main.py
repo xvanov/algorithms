@@ -2,7 +2,7 @@
 # Key Servers Statistics
 # See ALG_HW_6.html for explanation of problem
 # Kalin Ivanov
-# 13.05.19
+# 14.06.19
 
 import time
 import sys
@@ -26,22 +26,6 @@ def file_input(brute):
 
 def read_input():
     '''
-    Reads input from a file or from stdin and converts it into data accepted by the algorithm
-    The input is a graph
-    :param fin: input file
-    :return meta: meta data of input, meta[0] = # of nodes, meta[1] = # of edges, meta[2] = start city, meta[3] = end city, meta[4] = # of triangles, meta[5] = # of squares
-    :return es: dictionary where key is a parent and values are a list of children nodes
-    :return triangles: list of nodes that are triangles
-    :return squares: list of nodes that are squares
-    Example:
-    ## input ##
-        datapub/pub01.in
-        
-    ## output ##
-    meta: [10, 12, 4, 6, 2, 2]
-    es: {0: [1, 3], 1: [0, 2, 5], 2: [1, 7], 7: [2, 6], 6: [7, 9, 5], 9: [6, 8], 8: [9, 4], 4: [8, 3, 5], 3: [4, 0], 5: [1, 4, 6]}
-    triangles: [0, 2]
-    squares: [8, 9] 6: [5, 7, 1, 11], 7: [6, 8, 2, 12], 8: [7, 9, 3, 13], 9: [8, 4, 14], 10: [11, 5], 11: [10, 12, 6], 12: [11, 13, 7], 13: [12, 14, 8], 14: [13, 9]}
     '''
     try:
         fn = sys.argv[1]
@@ -55,21 +39,46 @@ def read_input():
         
     meta = [int(j) for j in raw_in(brute).split(' ')]
     
-    global_var.global_graph = graph.Graph(meta[0])
+#    global_var.global_graph = graph.Graph(meta[0])
     
     leaves = []
+    nodes = {}
     
     for i in range(meta[0]):
         line = [int(j) for j in raw_in(brute).split(' ')]
-        global_var.global_graph.addedge(line[0], line[1], line[2])
-        
-    for node in global_var.global_graph.nodes:
-        if len(node.neighbours) == 1:
-            leaves.append(node.id)
-
-    key_servers = [int(j) for j in raw_in(brute).split(' ')]
+#        global_var.global_graph.addedge(line[0], line[1], line[2])
+        try:
+            nodes[line[0]].append((line[1], line[2]))
+        except:
+            nodes[line[0]] = [(line[1], line[2])]
+        try:
+            nodes[line[1]].append((line[0], line[2]))
+        except:
+            nodes[line[1]] = [(line[0], line[2])]
     
-    return meta, key_servers, leaves
+    for node in nodes:
+        if len(nodes[node]) == 1:
+            leaves.append(node)
+#    for node in global_var.global_graph.nodes:
+#        if len(node.neighbours) == 1:
+#            leaves.append(node.id)
+
+    key_s = [int(j) for j in raw_in(brute).split(' ')]
+    key_s = sorted(key_s)
+    key_ss = key_s.copy()
+    start = key_s[0]
+    key_servers = {}
+    for i in range(meta[0]):
+        if len(key_s) > 0:
+            if i == key_s[0]:
+                key_servers[i] = 1;
+                key_s.pop(0)
+            else:
+                key_servers[i] = 0;
+        else:
+            key_servers[i] = 0;
+
+    return meta, nodes, key_servers, leaves, start, key_ss
 
 def read_output():
     '''
@@ -82,6 +91,116 @@ def read_output():
         res = f.readline()
         res = int(res)
     return res
+    
+def solve2(meta, nodes, key_servers, leaves, start, key_ss):
+    sol = 99999999999999
+    trees = []
+    branched = 0
+    special = 0
+    branchings = []
+    tree_keys = 0
+    start_branch = 0
+    total_start_branch = 0
+    keys = list(range(0,meta[0]))
+    branchings_parents = {key: 0 for key in keys}
+    
+    for leaf in leaves:
+        current = leaf
+        path = []
+        bool_s = 0
+        dist = 0
+        local_branched = 0
+        
+        while len(nodes[current]) < 3:
+            parent = current
+            if key_servers[current]:
+                tree_keys += 1
+                key_servers[current] = 0
+                bool_s = 1
+                if current == start:
+                    local_branched = 1
+                    branched = 1
+                    total_start_branch = dist
+                
+            path.append(current)
+            if len(path) >= 2:
+                child1 = nodes[current][0]
+                child2 = nodes[current][1]
+                if path[-2] == child1[0]:
+                    current = child2
+                else:
+                    current = child1
+            else:
+                current = nodes[current][0]
+            
+            if bool_s:
+                dist += current[1]
+                if local_branched:
+                    start_branch += current[1]
+                    branching_parent = parent
+                    branching = current[0]
+                    total_start_branch += current[1]
+            lasts = current[0]
+            
+            current = current[0]
+
+        if key_servers[lasts] == 1:
+            tree_keys -= 1
+        key_servers[lasts] = 1
+        trees.append(dist)
+        branchings.append(lasts)
+        branchings_parents[parent] = 1
+    
+
+    K = meta[1]
+    N = K + tree_keys + len(branchings)
+    
+    path = []
+    if branched:
+        current = branching
+        path.append(parent)
+        child1 = nodes[current][0]
+        child2 = nodes[current][1]
+        child3 = nodes[current][2]
+        children = [child1, child2, child3]
+        for c in children:
+            if branchings_parents[c[0]]:
+                children.remove(c)
+    else:
+        current = start
+        child1 = nodes[current][0]
+        child2 = nodes[current][1]
+        children = [child1, child2]
+
+    
+    dist = children[0][1]
+    exit = 0
+    path = [current, children[0][0]]
+    while exit == 0:
+        last = path[-1]
+        currents = nodes[last]
+        if last == path[0]:
+            exit = 1
+            break
+        
+        print(currents)
+        pot1 = currents[0][0]
+        pot2 = currents[1][0]
+        
+        if pot1 != path[-2] and not  branchings_parents[pot1]:
+            path.append(pot1)
+            dist += currents[0][1]
+        elif pot2 != path[-2] and not  branchings_parents[pot2]:
+            path.append(pot2)
+            dist += currents[1][1]
+        else:
+            pot3 = currents[2][0]
+            path.append(pot3)
+            dist += currents[2][1]
+           
+            
+    sol = sum(trees)*2 + dist
+    return sol 
     
     
 def solve(meta, key_servers, leaves):
@@ -109,21 +228,29 @@ def solve(meta, key_servers, leaves):
         current = global_var.global_graph.nodes[leaf]
         dist = 0
         count_bool = 0
+        prev = leaf
+        tree =[leaf]
         while len(current.neighbours) < 3:
 #            print(current.id)
             if current.id in key_servers:
                 count_bool = 1
                 visited_keys.append(current.id)
-                
+            tree.append(current.id)
+            prev = tree.pop(0)
+#            print(prev)
             visited.append(current.id)
             neighbours = global_var.global_graph.nodes[current.id].neighbours
             for n in neighbours:
-                if n[0].id not in visited:
+#                print(n[0].id)
+                if n[0].id != prev:
+#                if n[0].id not in visited:
                     current = global_var.global_graph.nodes[n[0].id]
                     if count_bool:
                         dist += n[1]
                     if len(current.neighbours) >= 3:
                         last.append(n[0].id)
+                    break
+            
                     
         trees.append(dist)
     
@@ -163,19 +290,22 @@ def solve(meta, key_servers, leaves):
 if __name__ == '__main__':
     ################ TURN IN BELOW THIS LINE #####################
     t1 = time.time() # comment out
-    meta, key_servers, leaves = read_input()
+    meta, nodes, key_servers, leaves, start, key_ss = read_input()
     t2 = time.time() # comment out
     
 #    print('meta: {}'.format(meta))
+#    print('nodes: {}'.format(nodes))
 #    print('key_servers: {}'.format(key_servers))
+#    print('leaves: {}'.format(leaves))
 #    global_var.global_graph.print_graph()
     
     t3 = time.time() # comment out
-    my_res = solve(meta, key_servers, leaves)
+#    my_res = solve(meta, key_servers, leaves)
+    my_res = solve2(meta, nodes, key_servers, leaves, start, key_ss)
     t4 = time.time() # comment out
 #    
     
-#    print(my_res)
+    print(my_res)
     
     ############### COMMENT OUT BELOW THIS LINE ##################
 
